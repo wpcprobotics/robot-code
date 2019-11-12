@@ -27,6 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+_____                                                   _____       _             _           _   _     _           _   _             
+/*
+ / ____|                                                 |_   _|     | |           | |         | | | |   | |         | | (_)            
+| (___   ___     __ _ _ __  _   ___      ____ _ _   _      | |    ___| |_ __ _ _ __| |_ ___  __| | | |__ | | __ _ ___| |_ _ _ __   __ _ 
+ \___ \ / _ \   / _` | '_ \| | | \ \ /\ / / _` | | | |     | |   / __| __/ _` | '__| __/ _ \/ _` | | '_ \| |/ _` / __| __| | '_ \ / _` |
+ ____) | (_) | | (_| | | | | |_| |\ V  V / (_| | |_| |_   _| |_  \__ \ || (_| | |  | ||  __/ (_| | | |_) | | (_| \__ \ |_| | | | | (_| |
+|_____/ \___/   \__,_|_| |_|\__, | \_/\_/ \__,_|\__, ( ) |_____| |___/\__\__,_|_|   \__\___|\__,_| |_.__/|_|\__,_|___/\__|_|_| |_|\__, |
+                            __/ |               __/ |/                                                                            __/ |
+                           |___/               |___/                                                                             |___/ 
+*/
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -103,8 +113,8 @@ public class StraightLine extends LinearOpMode {
             }else if (runtime.seconds() < 6) {
                 drive = 1;
                 turn  = -1;
-                telemetry.addData("Direction", "Turning");
-            }else {
+                telemetry.addData("Direction", "Turning Left");
+            }else { // Lmao why does this exist
                 drive = 1;
                 turn = 0;
                 telemetry.addData("Direction", "Going Straight");
