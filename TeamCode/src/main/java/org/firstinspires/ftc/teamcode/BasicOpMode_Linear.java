@@ -59,6 +59,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private Servo bottomServo = null;
 
     @Override
     public void runOpMode() {
@@ -70,11 +71,13 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        bottomServo = hardwareMap.get(Servo.class, "bottom_servo");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        bottomServo.setDirection(Servo.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -96,6 +99,18 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+            if (gamepad1.a) {
+                bottomServo.setPosition(0.5);
+            } else if (gamepad1.b) {
+                bottomServo.setPosition(1);
+            } else if (gamepad1.x) {
+                bottomServo.setDirection(REVERSE);
+                bottomServo.setPosition(0.5);
+            } else if (gamepad1.y) {
+                bottomServo.setDirection(REVERSE);
+                bottomServo.setPosition(1);
+            }
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
