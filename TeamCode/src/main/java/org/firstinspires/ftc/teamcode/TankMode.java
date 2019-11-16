@@ -105,21 +105,7 @@ public class TankMode extends LinearOpMode {
             //double turn  =  gamepad1.left_stick_x;
             //leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        /*
-            if (gamepad1.dpad_up && (codeCompletion == 0 || codeCompletion == 1)) codeCompletion++;
-            if (gamepad1.dpad_down && (codeCompletion == 2 || codeCompletion == 3)) codeCompletion++;
-            if (gamepad1.dpad_left && (codeCompletion == 4 || codeCompletion == 6)) codeCompletion++;
-            if (gamepad1.dpad_right && (codeCompletion == 5 || codeCompletion == 7)) codeCompletion++;
-            if (gamepad1.b && codeCompletion == 8) codeCompletion++;
-            if (gamepad1.a && codeCompletion == 9) codeCompletion++;
-            if (gamepad1.start && codeCompletion == 10) {
-                codeCompletion = 0;
-                codeComplete = true;
-                leftDrive.setPower(1);
-                rightDrive.setPower(0);
 
-            }
-            */
             if (gamepad1.x) {
                 bottomServo.setPosition(0.5);
             } else if (gamepad1.b) {
@@ -143,8 +129,8 @@ public class TankMode extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.addData("Encoders", leftDrive.getCurrentPosition());
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Encoders", "Right at %d Left at %d", leftDrive.getCurrentPosition(), rightDrive.getCurrentPosition());
             telemetry.addData("code", codeComplete);
             telemetry.update();
         }
