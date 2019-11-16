@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,10 +11,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 
 
-
 @Autonomous(name="Experimental Autonomous (Comp)", group="Pushbot")
-//@Disabled
-public class Autonomousv3 extends LinearOpMode {
+@Disabled
+public class Autonomousv2 extends LinearOpMode {
 
     HardwareofBot         robot   = new HardwareofBot();   // Uses the hardware we have
     private ElapsedTime     runtime = new ElapsedTime();
@@ -22,17 +22,9 @@ public class Autonomousv3 extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
     static final double     COUNTS_PER_INCH         = (TICKS_PER_REVOLUTION* DRIVE_GEAR_REDUCTION) /
-                                                        (WHEEL_DIAMETER_INCHES * 3.1415);
+                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
-    static final double     DISTANCE_BETWEEN_WHEELS = 11;
-
-    public void centerTurn(double degrees) {
-        double circumference = DISTANCE_BETWEEN_WHEELS * Math.PI;
-        double distance = (degrees / 360) * circumference;
-        encoderDrive(TURN_SPEED, distance, -distance, 20);
-    }
-
 
     @Override
     public void runOpMode() {
@@ -52,46 +44,32 @@ public class Autonomousv3 extends LinearOpMode {
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
-                robot.leftDrive.getCurrentPosition(),
-                robot.rightDrive.getCurrentPosition());
+                          robot.leftDrive.getCurrentPosition(),
+                          robot.rightDrive.getCurrentPosition());
         telemetry.update();
 
 
         waitForStart();
 
+        public void centerTurn(double degrees) {
+            double circumference = DISTANCE_BETWEEN_WHEELS * Math.Pi;
+            double turnRadius = (degrees / 360) * circumference;
+            encoderDrive(TURN_SPEED, distance, -distance);
+        }
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        // Strat: Shooting for 5th block to not start in depot.
-
-        encoderDrive(DRIVE_SPEED,  30,  30, 5.0);  // S1: fw 48 5 sec to
-        centerTurn(90);
-        encoderDrive(DRIVE_SPEED, 7, 7, 2.0);  // S3: fw 30 2 sec to
-        centerTurn(90);
+            // Strat: Shooting for 5th block to not start in depot. 
+        encoderDrive(DRIVE_SPEED,  40,  40, 5.0);  // S1: fw 48 5 sec to
+        encoderDrive(TURN_SPEED,   6, -6, 4.0);  // S2: right 4 sec to
+        encoderDrive(DRIVE_SPEED, 10, 10, 2.0);  // S3: fw 30 2 sec to
+        encoderDrive(TURN_SPEED,  6.5, -6.5, 4.0);  // S4: right 4 sec to
         encoderDrive(DRIVE_SPEED, 18, 18, 3.0);  // S5: fw 29 3 sec to
-        centerTurn(-90);
+        encoderDrive(TURN_SPEED,   -6.25, 6.25, 4.0);  // S6: left 4 sec to
         encoderDrive(DRIVE_SPEED,  30,  30, 6.0);  // S7: fw 56 6 sec to
         encoderDrive(DRIVE_SPEED,  -10,  -10, 5.0);  // S9: fw 10 3 sec to
-
+        
 
         //encoderDrive(0.05, 19, 19, 28.0); // Backup autonomous
-
-        /*     // NOTE: Previous autonomous changed at competition to reflect change in strategy.
-        encoderDrive(DRIVE_SPEED,  46,  46, 5.0);  // S1: fw 48 5 sec to
-        encoderDrive(TURN_SPEED,   6, -6, 4.0);  // S2: right 4 sec to
-        encoderDrive(DRIVE_SPEED, 30, 30, 2.0);  // S3: fw 30 2 sec to
-        encoderDrive(TURN_SPEED,  6, -6, 4.0);  // S4: right 4 sec to
-        encoderDrive(DRIVE_SPEED, 29, 29, 3.0);  // S5: fw 29 3 sec to
-        encoderDrive(TURN_SPEED,   -6, 6, 4.0);  // S6: left 4 sec to
-        encoderDrive(DRIVE_SPEED,  56,  56, 6.0);  // S7: fw 56 6 sec to
-        encoderDrive(TURN_SPEED,   -6, 6, 4.0);  // S8: left 4 sec to
-        encoderDrive(DRIVE_SPEED,  10,  10, 5.0);  // S9: fw 10 3 sec to
-        encoderDrive(DRIVE_SPEED,  -14,  -14, 5.0);  // S10: fw 48 5 sec to
-        encoderDrive(TURN_SPEED,   -6, 6, 4.0);  // S11: left 4 sec to
-        encoderDrive(DRIVE_SPEED,  38.2,  38.2, 5.0);  // S11: fw 38 5 sec to
-        */
-
-        encoderDrive(0.05, 24, 24, 28.0);
-
 
 
         telemetry.addData("Path", "Complete");
@@ -132,13 +110,13 @@ public class Autonomousv3 extends LinearOpMode {
 
 
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
+                   (runtime.seconds() < timeoutS) &&
+                   (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                        robot.leftDrive.getCurrentPosition(),
-                        robot.rightDrive.getCurrentPosition());
+                                            robot.leftDrive.getCurrentPosition(),
+                                            robot.rightDrive.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -153,4 +131,3 @@ public class Autonomousv3 extends LinearOpMode {
         }
     }
 }
-
