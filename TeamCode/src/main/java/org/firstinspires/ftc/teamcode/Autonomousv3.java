@@ -15,23 +15,18 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 //@Disabled
 public class Autonomousv3 extends LinearOpMode {
 
-    HardwareofBot         robot   = new HardwareofBot();   // Uses the hardware we have
+    private HardwareofBot         robot   = new HardwareofBot();   // Uses the hardware we have
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     TICKS_PER_REVOLUTION    = 1680 ;    // eg: Neverest 60 Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
-    static final double     COUNTS_PER_INCH         = (TICKS_PER_REVOLUTION* DRIVE_GEAR_REDUCTION) /
+    private static final double     TICKS_PER_REVOLUTION    = 1680 ;    // eg: Neverest 60 Motor Encoder
+    private static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
+    private static final double     COUNTS_PER_INCH         = (TICKS_PER_REVOLUTION* DRIVE_GEAR_REDUCTION) /
                                                         (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
-    static final double     DISTANCE_BETWEEN_WHEELS = 11;
+    private static final double     DRIVE_SPEED             = 0.6;
+    private static final double     TURN_SPEED              = 0.5;
+    private static final double     DISTANCE_BETWEEN_WHEELS = 11;
 
-    public void centerTurn(double degrees) {
-        double circumference = DISTANCE_BETWEEN_WHEELS * Math.PI;
-        double distance = (degrees / 360) * circumference;
-        encoderDrive(TURN_SPEED, distance, -distance, 20);
-    }
 
 
     @Override
@@ -106,7 +101,7 @@ public class Autonomousv3 extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
-    public void encoderDrive(double speed,
+    private void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftTarget;
@@ -151,6 +146,11 @@ public class Autonomousv3 extends LinearOpMode {
             robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
+    }
+    private void centerTurn(double degrees) {
+        double circumference = DISTANCE_BETWEEN_WHEELS * Math.PI;
+        double distance = (degrees / 360) * circumference;
+        encoderDrive(TURN_SPEED, distance, -distance, 20);
     }
 }
 
