@@ -18,14 +18,14 @@ public class Autonomousv3 extends LinearOpMode {
     private HardwareofBot         robot   = new HardwareofBot();   // Uses the hardware we have
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private static final double     TICKS_PER_REVOLUTION    = 1680 ;    // eg: Neverest 60 Motor Encoder
-    private static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    private static final double     TICKS_PER_REVOLUTION    = 28 ;    // eg: Neverest 60 Motor Encoder
+    private static final double     DRIVE_GEAR_REDUCTION    = 60.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
     private static final double     COUNTS_PER_INCH         = (TICKS_PER_REVOLUTION* DRIVE_GEAR_REDUCTION) /
-                                                        (WHEEL_DIAMETER_INCHES * 3.1415);
+                                                        (WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double     DRIVE_SPEED             = 0.6;
     private static final double     TURN_SPEED              = 0.5;
-    private static final double     DISTANCE_BETWEEN_WHEELS = 11;
+    private static final double     DISTANCE_BETWEEN_WHEELS = 12.5;
 
 
 
@@ -57,7 +57,19 @@ public class Autonomousv3 extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Strat: Shooting for 5th block to not start in depot.
+        straightDrive(4*Math.PI);
+        /*
+        straightDrive(12);
+        centerTurn(90);
+        straightDrive(12);
+        centerTurn(-90);
+        straightDrive(-12);
+        centerTurn(-90);
+        straightDrive(12);
+        centerTurn(90);
 
+         */
+        /*
         encoderDrive(DRIVE_SPEED,  30,  30, 5.0);  // S1: fw 48 5 sec to
         centerTurn(90);
         encoderDrive(DRIVE_SPEED, 7, 7, 2.0);  // S3: fw 30 2 sec to
@@ -67,7 +79,7 @@ public class Autonomousv3 extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,  30,  30, 6.0);  // S7: fw 56 6 sec to
         encoderDrive(DRIVE_SPEED,  -10,  -10, 5.0);  // S9: fw 10 3 sec to
 
-
+        */
         //encoderDrive(0.05, 19, 19, 28.0); // Backup autonomous
 
         /*     // NOTE: Previous autonomous changed at competition to reflect change in strategy.
@@ -85,7 +97,7 @@ public class Autonomousv3 extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,  38.2,  38.2, 5.0);  // S11: fw 38 5 sec to
         */
 
-        encoderDrive(0.05, 24, 24, 28.0);
+        //encoderDrive(0.05, 24, 24, 28.0);
 
 
 
@@ -150,7 +162,10 @@ public class Autonomousv3 extends LinearOpMode {
     private void centerTurn(double degrees) {
         double circumference = DISTANCE_BETWEEN_WHEELS * Math.PI;
         double distance = (degrees / 360) * circumference;
-        encoderDrive(TURN_SPEED, distance, -distance, 20);
+        encoderDrive(TURN_SPEED, distance, -distance, 40);
+    }
+    private void straightDrive(double distance) {
+        encoderDrive(DRIVE_SPEED, distance, distance, 40);
     }
 }
 
