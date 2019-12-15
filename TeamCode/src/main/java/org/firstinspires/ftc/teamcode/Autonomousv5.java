@@ -2,18 +2,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
-
-
-@Autonomous(name="Autonomous  L of Bridge", group="Pushbot")
+@Autonomous(name="Autonomous R of Bridge", group="Pushbot")
 //@Disabled
-public class Autonomousv2 extends LinearOpMode {
+public class Autonomousv5 extends LinearOpMode {
 
     HardwareofBot         robot   = new HardwareofBot();   // Uses the hardware we have
     private ElapsedTime     runtime = new ElapsedTime();
@@ -73,7 +69,7 @@ public class Autonomousv2 extends LinearOpMode {
         //robot.arm.setPosition(1);
 
         encoderDrive(1, 11, 11, 100);
-        centerTurn(50);
+        centerTurn(-50);
         encoderDrive(1, 20, 20, 100);
         //centerTurn(90);
         //encoderDrive(1, 10, 10, 40);

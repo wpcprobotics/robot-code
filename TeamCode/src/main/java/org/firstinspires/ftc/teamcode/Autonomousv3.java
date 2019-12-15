@@ -57,8 +57,6 @@ public class Autonomousv3 extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Strat: Shooting for 5th block to not start in depot.
-        straightDrive(4*Math.PI);
-        /*
         straightDrive(12);
         centerTurn(90);
         straightDrive(12);
@@ -67,8 +65,7 @@ public class Autonomousv3 extends LinearOpMode {
         centerTurn(-90);
         straightDrive(12);
         centerTurn(90);
-
-         */
+        
         /*
         encoderDrive(DRIVE_SPEED,  30,  30, 5.0);  // S1: fw 48 5 sec to
         centerTurn(90);

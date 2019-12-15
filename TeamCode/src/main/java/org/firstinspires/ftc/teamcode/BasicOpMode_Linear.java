@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -59,6 +61,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor intakeMotor = null;
+    private Servo arm = null;
 
     @Override
     public void runOpMode() {
@@ -71,12 +74,14 @@ public class BasicOpMode_Linear extends LinearOpMode {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         intakeMotor = hardwareMap.get(DcMotor.class, "intake_motor");
+        arm = hardwareMap.get(Servo.class, "arm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(Servo.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -112,6 +117,15 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 intakeMotor.setPower(0);
             }
 
+            if (gamepad1.left_bumper) {
+                arm.setPosition(1);
+            }
+
+            if (gamepad1.right_bumper) {
+                arm.setDirection(REVERSE);
+                arm.setPosition(0.5);
+            }
+
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
@@ -126,6 +140,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.addData("Encoders","left (%d), right (%d)", leftDrive.getCurrentPosition(), rightDrive.getCurrentPosition());
             telemetry.addData("Intake", intakeMotor.getPower());
+            telemetry.addData("Servo Position", arm.getPosition());
             telemetry.update();
         }
     }

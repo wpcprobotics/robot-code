@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.nio.channels.DatagramChannel;
 
+import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 
 
@@ -62,6 +63,7 @@ public class TankMode extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor intakeMotor = null;
+    private Servo arm = null;
 
     @Override
     public void runOpMode() {
@@ -74,12 +76,15 @@ public class TankMode extends LinearOpMode {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         intakeMotor = hardwareMap.get(DcMotor.class, "intake_motor");
+        arm = hardwareMap.get(Servo.class, "arm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(Servo.Direction.REVERSE);
+
         //leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -107,7 +112,7 @@ public class TankMode extends LinearOpMode {
             //leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-            if (gamepad1.a) {
+            /*if (gamepad1.a) {
                 intakeMotor.setPower(1);
             }else if (gamepad1.b) {
                 intakeMotor.setPower(0.5);
@@ -117,6 +122,16 @@ public class TankMode extends LinearOpMode {
                 intakeMotor.setPower(-0.5);
             }else {
                 intakeMotor.setPower(0);
+            }
+             */
+
+            if (gamepad1.left_bumper) {
+                arm.setPosition(1);
+            }
+
+            if (gamepad1.right_bumper) {
+                arm.setDirection(REVERSE);
+                arm.setPosition(0.5);
             }
 
             //Tank Mode uses one stick to control each wheel.
@@ -133,6 +148,7 @@ public class TankMode extends LinearOpMode {
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.addData("Encoders", "Right at %d Left at %d", leftDrive.getCurrentPosition(), rightDrive.getCurrentPosition());
             telemetry.addData("Intake", intakeMotor.getPower());
+            telemetry.addData("Servo Position", arm.getPosition());
             telemetry.addData("code", codeComplete);
             telemetry.update();
         }

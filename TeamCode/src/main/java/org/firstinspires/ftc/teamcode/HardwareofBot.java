@@ -41,6 +41,7 @@ public class HardwareofBot
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;
     public DcMotor  rightDrive  = null;
+    public Servo arm = null;
 
 
     public static final double MID_SERVO       =  0.5 ;
@@ -64,9 +65,11 @@ public class HardwareofBot
         // define all motors
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
+        arm = hwMap.get(Servo.class, "arm");
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(Servo.Direction.REVERSE);
 
         // 0 power for motors
         leftDrive.setPower(0);
