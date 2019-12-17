@@ -39,49 +39,19 @@ import com.qualcomm.robotcore.util.Range;
 
 import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 
-
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
 @TeleOp(name="Mecanum Driver Op", group="Linear Opmode")
 //@Disabled
 public class MecanumWheels extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor frontLeft = null;
-    private DcMotor frontRight = null;
-    private DcMotor backLeft = null;
-    private DcMotor backRight = null;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables.
-        frontLeft = hardwareMap.get(DcMotor.class, "front_left");
-        frontRight = hardwareMap.get(DcMotor.class, "front_right");
-        backLeft = hardwareMap.get(DcMotor.class,"back_left");
-        backRight = hardwareMap.get(DcMotor.class,"back_right");
-
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
-
+        HardwareOfBot robot = new HardwareOfBot(hardwareMap);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -92,7 +62,7 @@ public class MecanumWheels extends LinearOpMode {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             double vertical = -gamepad1.left_stick_y;
-            double horizontal = gamepad1.left_stick_x;
+            double horizontal = -gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             double frontLeftPower = Range.clip(vertical + horizontal + turn, -1 ,1);
             double frontRightPower = Range.clip(vertical - horizontal - turn, -1, 1);
@@ -102,14 +72,15 @@ public class MecanumWheels extends LinearOpMode {
 
 
             // Send calculated power to wheels
-            frontLeft.setPower(frontLeftPower);
-            frontRight.setPower(frontRightPower);
-            backLeft.setPower(backLeftPower);
-            backRight.setPower(backRightPower);
+            robot.frontLeft.setPower(frontLeftPower);
+            robot.frontRight.setPower(frontRightPower);
+            robot.backLeft.setPower(backLeftPower);
+            robot.backRight.setPower(backRightPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+            telemetry.addData("Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
 
             telemetry.update();
         }
