@@ -84,5 +84,15 @@ public class MecanumWheels extends LinearOpMode {
 
             telemetry.update();
         }
+
+        // Turn off all wheels when done
+        robot.frontLeft.setPower(0);
+        robot.frontRight.setPower(0);
+        robot.backLeft.setPower(0);
+        robot.backRight.setPower(0);
+
+        // Display that robot stopped, and total run time
+        telemetry.addData("Finished", "Run Time: " + runtime.toString());
+        telemetry.update();
     }
 }
