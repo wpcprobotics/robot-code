@@ -37,35 +37,31 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 class HardwareOfBot {
+    final private static double CYCLES_PER_ENCODER_SHAFT_ROTATION = 28;
+    final private static double FINAL_GEAR_REDUCTION = 54.8;
+    final private static double WHEEL_CIRCUMFERENCE_CM = 7.5 * Math.PI;
+    final static double CYCLES_PER_WHEEL_ROTATION = CYCLES_PER_ENCODER_SHAFT_ROTATION * FINAL_GEAR_REDUCTION;
+    final static double CYCLES_PER_CM = CYCLES_PER_WHEEL_ROTATION / WHEEL_CIRCUMFERENCE_CM;
+
     /* Public OpMode members. */
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
 
-    // constructor for fun stuff
     HardwareOfBot(HardwareMap hardwareMap){
 
-        // define all motors
+        // Define all motors
         frontLeft = hardwareMap.get(DcMotor.class, "front_left");
         frontRight = hardwareMap.get(DcMotor.class, "front_right");
         backLeft = hardwareMap.get(DcMotor.class,"back_left");
         backRight = hardwareMap.get(DcMotor.class,"back_right");
 
+        //Set motor direction
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
-
-
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        //leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        // Define and initialize ALL installed servos.
-
     }
  }
 

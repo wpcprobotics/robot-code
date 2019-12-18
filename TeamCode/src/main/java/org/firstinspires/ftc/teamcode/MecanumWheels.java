@@ -31,13 +31,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
-import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 
 @TeleOp(name="Mecanum Driver Op", group="Linear Opmode")
 //@Disabled
@@ -69,8 +64,6 @@ public class MecanumWheels extends LinearOpMode {
             double backLeftPower = Range.clip(vertical - horizontal + turn, -1, 1);
             double backRightPower = Range.clip(vertical + horizontal - turn, -1, 1);
 
-
-
             // Send calculated power to wheels
             robot.frontLeft.setPower(frontLeftPower);
             robot.frontRight.setPower(frontRightPower);
@@ -81,7 +74,8 @@ public class MecanumWheels extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
-
+            telemetry.addData("Wheel Rotations", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION);
+            telemetry.addData("Distance in CM", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM);
             telemetry.update();
         }
 
