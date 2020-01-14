@@ -43,7 +43,7 @@ class HardwareOfBot {
     final static double CYCLES_PER_WHEEL_ROTATION = CYCLES_PER_ENCODER_SHAFT_ROTATION * FINAL_GEAR_REDUCTION;
     final static double CYCLES_PER_CM = CYCLES_PER_WHEEL_ROTATION / WHEEL_CIRCUMFERENCE_CM;
 
-    /* Public OpMode members. */
+    // OpMode members used by MecanumWheels
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
