@@ -70,12 +70,21 @@ public class MecanumWheels extends LinearOpMode {
             robot.backLeft.setPower(backLeftPower);
             robot.backRight.setPower(backRightPower);
 
+            //Control brick arm
+            robot.brickExtender.setPower(-gamepad2.left_stick_y);
+            if (gamepad2.dpad_up) robot.brickClaw.setPosition(1);
+            else if (gamepad2.dpad_left) robot.brickClaw.setPosition(2/3);
+            else if (gamepad2.dpad_right) robot.brickClaw.setPosition(1/3);
+            else if (gamepad2.dpad_down) robot.brickClaw.setPosition(0);
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
             telemetry.addData("Wheel Rotations", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION);
             telemetry.addData("Distance in CM", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM);
+            telemetry.addData("Brick Extender", "Power(%.2f), Encoder(%d)", robot.brickExtender.getPower(), robot.brickExtender.getCurrentPosition());
+            telemetry.addData("Brick Claw", robot.brickClaw.getPosition());
             telemetry.update();
         }
 

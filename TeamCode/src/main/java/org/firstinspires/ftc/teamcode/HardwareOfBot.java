@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -48,20 +49,27 @@ class HardwareOfBot {
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
+    DcMotor brickExtender;
+    Servo brickClaw;
+    ColorSensor colorSensor;
 
     HardwareOfBot(HardwareMap hardwareMap){
 
-        // Define all motors
+        // Define all hardware
         frontLeft = hardwareMap.get(DcMotor.class, "front_left");
         frontRight = hardwareMap.get(DcMotor.class, "front_right");
         backLeft = hardwareMap.get(DcMotor.class,"back_left");
         backRight = hardwareMap.get(DcMotor.class,"back_right");
+        brickExtender = hardwareMap.get(DcMotor.class, "brick_extender");
+        brickClaw = hardwareMap.get(Servo.class, "brick_claw");
+        colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
 
         //Set motor direction
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
+        brickExtender.setDirection(DcMotor.Direction.FORWARD);
     }
  }
 
