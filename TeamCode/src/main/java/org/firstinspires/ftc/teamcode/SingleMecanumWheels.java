@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Mecanum Driver Op", group="Linear Opmode")
+@TeleOp(name="Single Driver Op", group="Linear Opmode")
 //@Disabled
-public class MecanumWheels extends LinearOpMode {
+public class SingleMecanumWheels extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -57,7 +57,7 @@ public class MecanumWheels extends LinearOpMode {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             double vertical = -gamepad1.left_stick_y;
-            double horizontal = -gamepad1.left_stick_x;
+            double horizontal = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             double frontLeftPower = Range.clip(vertical + horizontal + turn, -1 ,1);
             double frontRightPower = Range.clip(vertical - horizontal - turn, -1, 1);
@@ -71,11 +71,9 @@ public class MecanumWheels extends LinearOpMode {
             robot.backRight.setPower(backRightPower);
 
             //Control brick arm
-            robot.brickExtender.setPower(-gamepad2.left_stick_y);
-            if (gamepad2.dpad_up) robot.brickClaw.setPosition(1);
-            else if (gamepad2.dpad_left) robot.brickClaw.setPosition(2/3);
-            else if (gamepad2.dpad_right) robot.brickClaw.setPosition(1/3);
-            else if (gamepad2.dpad_down) robot.brickClaw.setPosition(0);
+            robot.brickExtender.setPower(gamepad1.left_trigger - gamepad1.right_trigger);
+            if (gamepad1.left_bumper) robot.brickClaw.setPosition(1);
+            else if (gamepad1.right_bumper) robot.brickClaw.setPosition((double)1/3);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
