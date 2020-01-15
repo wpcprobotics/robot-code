@@ -81,8 +81,6 @@ public class DoubleMecanumWheels extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
-            telemetry.addData("Wheel Rotations", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_WHEEL_ROTATION);
-            telemetry.addData("Distance in CM", "FL (%.2f), FR (%.2f), BL (%.2f), BR (%.2f)", robot.frontLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.frontRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backLeft.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM, robot.backRight.getCurrentPosition()/HardwareOfBot.CYCLES_PER_CM);
             telemetry.addData("Brick Extender", "Power(%.2f), Encoder(%d)", robot.brickExtender.getPower(), robot.brickExtender.getCurrentPosition());
             telemetry.addData("Brick Claw", robot.brickClaw.getPosition());
             telemetry.update();

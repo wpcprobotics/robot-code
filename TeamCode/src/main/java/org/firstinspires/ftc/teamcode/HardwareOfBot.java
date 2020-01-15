@@ -38,11 +38,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 class HardwareOfBot {
-    final private static double CYCLES_PER_ENCODER_SHAFT_ROTATION = 28;
-    final private static double FINAL_GEAR_REDUCTION = 54.8;
-    final private static double WHEEL_CIRCUMFERENCE_CM = 7.5 * Math.PI;
-    final static double CYCLES_PER_WHEEL_ROTATION = CYCLES_PER_ENCODER_SHAFT_ROTATION * FINAL_GEAR_REDUCTION;
-    final static double CYCLES_PER_CM = CYCLES_PER_WHEEL_ROTATION / WHEEL_CIRCUMFERENCE_CM;
+    final static int ONE_METER = 6000;
+    final static int ONE_CENTIMETER =  ONE_METER / 100;
+    final static int FULL_ROBOTATION = 8850;
+    final static double ONE_DEGREE = FULL_ROBOTATION / 360;
 
     /* Public OpMode members. */
     DcMotor frontLeft;
