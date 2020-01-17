@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Autonomous", group="Linear Opmode")
 //@Disabled
@@ -54,10 +53,19 @@ public class MecanumAutonomous extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        // cm for vert and horiz, degree for turn
-        encoderDrive(0,0,360);
-        sleep(1000);
-        encoderDrive(100,0,0);
+        // Centimeters for vertical and horizontal, degrees for turn
+        encoderDrive(100,0,0);//Approach block
+        robot.brickClaw.setPosition(1);//Grab block
+        sleep(1000);//Wait to grab block
+        encoderDrive(-50,0,0);//Backup
+        encoderDrive(0,-200,0);//Cross under bridge
+        encoderDrive(50,0,0);//Approach platform
+        moveExtender(1500);//Raise extender
+        robot.brickClaw.setPosition((double)1/3);//Release block
+        sleep(1000);//Wait to release block
+        encoderDrive(5,-10,0);
+
+
 
         // Turn off all wheels when done
         robot.frontLeft.setPower(0);
@@ -69,29 +77,6 @@ public class MecanumAutonomous extends LinearOpMode {
         telemetry.addData("Finished", "Run Time: " + runtime.toString());
         telemetry.update();
     }
-
-    /*
-    private void timedDrive(double vertical, double horizontal, double turn, double timeLength) {
-        double targetTime = runtime.seconds() + timeLength;
-        while (runtime.seconds() < targetTime) {
-            double frontLeftPower = Range.clip(vertical + horizontal + turn, -1, 1);
-            double frontRightPower = Range.clip(vertical - horizontal - turn, -1, 1);
-            double backLeftPower = Range.clip(vertical - horizontal + turn, -1, 1);
-            double backRightPower = Range.clip(vertical + horizontal - turn, -1, 1);
-
-            // Send calculated power to wheels
-            robot.frontLeft.setPower(frontLeftPower);
-            robot.frontRight.setPower(frontRightPower);
-            robot.backLeft.setPower(backLeftPower);
-            robot.backRight.setPower(backRightPower);
-        }
-        //Stop robot
-        robot.frontLeft.setPower(0);
-        robot.frontRight.setPower(0);
-        robot.backLeft.setPower(0);
-        robot.backRight.setPower(0);
-    }
-     */
 
     private void encoderDrive(double vertical, double horizontal, double turn) {
         int frontLeftPosition = (int) (robot.frontLeft.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical + HardwareOfBot.ONE_CENTIMETER * horizontal + HardwareOfBot.ONE_DEGREE * turn);
@@ -114,7 +99,7 @@ public class MecanumAutonomous extends LinearOpMode {
         robot.backLeft.setPower(1);
         robot.backRight.setPower(1);
 
-        while (robot.frontLeft.isBusy() || robot.frontRight.isBusy() || robot.backLeft.isBusy() || robot.backRight.isBusy()) {
+        while (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.backLeft.isBusy() && robot.backRight.isBusy()) {
             telemetry.addData("Target Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", frontLeftPosition, frontRightPosition, backLeftPosition, backRightPosition);
             telemetry.addData("Current Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
             telemetry.update();
@@ -129,5 +114,19 @@ public class MecanumAutonomous extends LinearOpMode {
         robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    private void moveExtender(int encoderChange) {
+        int targetPosition = robot.brickExtender.getCurrentPosition() + encoderChange;
+        robot.brickExtender.setTargetPosition(targetPosition);
+        robot.brickExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.brickExtender.setPower(1);
+        while (robot.brickExtender.isBusy()) {
+            telemetry.addData("Target",targetPosition);
+            telemetry.addData("Position", robot.brickExtender.getCurrentPosition());
+            telemetry.update();
+        }
+        robot.brickExtender.setPower(0);
+        robot.brickExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

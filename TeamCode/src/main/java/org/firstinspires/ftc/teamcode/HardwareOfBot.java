@@ -31,16 +31,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 class HardwareOfBot {
-    final static int ONE_METER = 6000;
+    final private static int ONE_METER = 6000;
     final static int ONE_CENTIMETER =  ONE_METER / 100;
-    final static int FULL_ROBOTATION = 8850;
+    final private static int FULL_ROBOTATION = 8850;
     final static double ONE_DEGREE = FULL_ROBOTATION / 360;
 
     /* Public OpMode members. */
@@ -50,7 +48,8 @@ class HardwareOfBot {
     DcMotor backRight;
     DcMotor brickExtender;
     Servo brickClaw;
-    ColorSensor colorSensor;
+    ColorSensor sideColor;
+    ColorSensor floorColor;
 
     HardwareOfBot(HardwareMap hardwareMap){
 
@@ -61,7 +60,8 @@ class HardwareOfBot {
         backRight = hardwareMap.get(DcMotor.class,"back_right");
         brickExtender = hardwareMap.get(DcMotor.class, "brick_extender");
         brickClaw = hardwareMap.get(Servo.class, "brick_claw");
-        colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
+        //sideColor = hardwareMap.get(ColorSensor.class, "side_color");
+        //floorColor = hardwareMap.get(ColorSensor.class,"floor_color");
 
         //Set motor direction
         frontRight.setDirection(DcMotor.Direction.FORWARD);
