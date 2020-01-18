@@ -58,12 +58,16 @@ public class MecanumAutonomous extends LinearOpMode {
         robot.brickClaw.setPosition(1);//Grab block
         sleep(1000);//Wait to grab block
         encoderDrive(-50,0,0);//Backup
-        encoderDrive(0,-200,0);//Cross under bridge
-        encoderDrive(50,0,0);//Approach platform
-        moveExtender(1500);//Raise extender
-        robot.brickClaw.setPosition((double)1/3);//Release block
-        sleep(1000);//Wait to release block
-        encoderDrive(5,-10,0);
+        moveExtender(300);
+        encoderDrive(0,225,0);//Cross under bridge
+        moveExtender(900);
+        encoderDrive(62,0,0);
+        robot.brickClaw.setPosition((double)1/3);
+        encoderDrive(0,20,0);
+        moveExtender(-1000);
+        encoderDrive(-90,0,0);
+        moveExtender(250);
+        encoderDrive(0,-150,0);
 
 
 
