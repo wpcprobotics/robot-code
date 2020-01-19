@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Full Autonomous", group="Linear Opmode")
+@Autonomous(name="Blue Platform and Park", group="Linear Opmode")
 //@Disabled
-public class MecanumAutonomous extends LinearOpMode {
+public class BluePlatformAndPark extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -54,20 +54,15 @@ public class MecanumAutonomous extends LinearOpMode {
         runtime.reset();
 
         // Centimeters for vertical and horizontal, degrees for turn
-        encoderDrive(100,0,0);//Approach block
-        robot.brickClaw.setPosition(1);//Grab block
-        sleep(1000);//Wait to grab block
-        encoderDrive(-50,0,0);//Backup
-        moveExtender(200);
-        encoderDrive(0,225,0);//Cross under bridge
-        moveExtender(900);
-        encoderDrive(62,0,0);
-        robot.brickClaw.setPosition((double)1/3);
-        encoderDrive(0,40,0);
-        moveExtender(-1000);
-        encoderDrive(-90,0,0);
-        moveExtender(250);
-        encoderDrive(0,-150,0);
+        moveExtender(500);
+        encoderDrive(110,0,0);
+        encoderDrive(0,-30,0);
+        moveExtender(-300);
+        encoderDrive(-110,0,0);
+        moveExtender(400);
+        encoderDrive(0,75,0);
+        moveExtender(-600);
+        encoderDrive(0,70,0);
 
 
 
