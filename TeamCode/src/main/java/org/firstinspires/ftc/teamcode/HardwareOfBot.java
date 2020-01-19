@@ -41,7 +41,7 @@ class HardwareOfBot {
     final private static int FULL_ROBOTATION = 8850;
     final static double ONE_DEGREE = FULL_ROBOTATION / 360;
 
-    /* Public OpMode members. */
+    // OpMode members used by MecanumWheels
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
