@@ -72,10 +72,8 @@ public class DoubleMecanumWheels extends LinearOpMode {
 
             //Control brick arm
             robot.brickExtender.setPower(-gamepad2.left_stick_y);
-            if (gamepad2.dpad_up) robot.brickClaw.setPosition(1);
-            else if (gamepad2.dpad_left) robot.brickClaw.setPosition(2/3);
-            else if (gamepad2.dpad_right) robot.brickClaw.setPosition(1/3);
-            else if (gamepad2.dpad_down) robot.brickClaw.setPosition(0);
+            if (gamepad2.dpad_down) robot.brickClaw.setPosition(1);
+            else if (gamepad2.dpad_up) robot.brickClaw.setPosition(1/3);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

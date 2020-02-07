@@ -47,6 +47,7 @@ public class SingleMecanumWheels extends LinearOpMode {
         telemetry.update();
 
         HardwareOfBot robot = new HardwareOfBot(hardwareMap);
+        boolean zoomMode = false;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -57,8 +58,18 @@ public class SingleMecanumWheels extends LinearOpMode {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             double vertical = -gamepad1.left_stick_y;
-            double horizontal = gamepad1.left_stick_x;
+            double horizontal = -gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
+
+            if (gamepad1.b) {
+                telemetry.addData("Mode", "I WOKE");
+            }else {
+                telemetry.addData("Mode","i sleep!");
+                vertical /= 2;
+                horizontal /= 2;
+                turn /= 2;
+            }
+
             double frontLeftPower = Range.clip(vertical + horizontal + turn, -1 ,1);
             double frontRightPower = Range.clip(vertical - horizontal - turn, -1, 1);
             double backLeftPower = Range.clip(vertical - horizontal + turn, -1, 1);

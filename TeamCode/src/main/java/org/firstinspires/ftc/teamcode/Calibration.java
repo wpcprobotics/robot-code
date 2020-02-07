@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Wall Park Only", group="Linear Opmode")
+@Autonomous(name="Calibration", group="Linear Opmode")
 //@Disabled
-public class WallParkOnly extends LinearOpMode {
+public class Calibration extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -54,8 +54,11 @@ public class WallParkOnly extends LinearOpMode {
         runtime.reset();
 
         // Centimeters for vertical and horizontal, degrees for turn
-        encoderDrive(40,0,0);
-
+        encoderDrive(100,0,0);
+        sleep(5000);
+        encoderDrive(0,100,0);
+        sleep(10000);
+        encoderDrive(0,0,360);
 
 
         // Turn off all wheels when done

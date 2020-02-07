@@ -36,9 +36,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 class HardwareOfBot {
-    final private static int ONE_METER = 6000;
+    final private static int ONE_METER = 1500;
     final static int ONE_CENTIMETER =  ONE_METER / 100;
-    final private static int FULL_ROBOTATION = 8850;
+    final private static int FULL_ROBOTATION = 2210;
     final static double ONE_DEGREE = FULL_ROBOTATION / 360;
 
     // OpMode members used by MecanumWheels
@@ -69,6 +69,12 @@ class HardwareOfBot {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
         brickExtender.setDirection(DcMotor.Direction.FORWARD);
+
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        brickExtender.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
  }
 
