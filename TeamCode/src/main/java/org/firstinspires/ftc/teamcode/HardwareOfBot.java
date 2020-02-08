@@ -36,9 +36,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 class HardwareOfBot {
-    final private static int ONE_METER = 1500;
+    final private static int ONE_METER = 4500; // guess and check lmao
     final static int ONE_CENTIMETER =  ONE_METER / 100;
-    final private static int FULL_ROBOTATION = 2210;
+    final private static int FULL_ROBOTATION = 2750;
     final static double ONE_DEGREE = FULL_ROBOTATION / 360;
 
     // OpMode members used by MecanumWheels
@@ -48,8 +48,7 @@ class HardwareOfBot {
     DcMotor backRight;
     DcMotor brickExtender;
     Servo brickClaw;
-    ColorSensor sideColor;
-    ColorSensor floorColor;
+    ColorSensor colorSensor;
 
     HardwareOfBot(HardwareMap hardwareMap){
 
@@ -60,8 +59,7 @@ class HardwareOfBot {
         backRight = hardwareMap.get(DcMotor.class,"back_right");
         brickExtender = hardwareMap.get(DcMotor.class, "brick_extender");
         brickClaw = hardwareMap.get(Servo.class, "brick_claw");
-        //sideColor = hardwareMap.get(ColorSensor.class, "side_color");
-        //floorColor = hardwareMap.get(ColorSensor.class,"floor_color");
+        colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
 
         //Set motor direction
         frontRight.setDirection(DcMotor.Direction.FORWARD);

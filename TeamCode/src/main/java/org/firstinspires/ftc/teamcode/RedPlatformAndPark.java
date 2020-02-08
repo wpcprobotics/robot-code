@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Red Platform and Park", group="Linear Opmode")
+@Autonomous(name="Red Platform and Park", group="Red")
 //@Disabled
 public class RedPlatformAndPark extends LinearOpMode {
 

@@ -54,10 +54,10 @@ public class Calibration extends LinearOpMode {
         runtime.reset();
 
         // Centimeters for vertical and horizontal, degrees for turn
+        /*moveExtender(1000,false);
         encoderDrive(100,0,0);
         sleep(5000);
-        encoderDrive(0,100,0);
-        sleep(10000);
+         */
         encoderDrive(0,0,360);
 
 
@@ -73,10 +73,10 @@ public class Calibration extends LinearOpMode {
     }
 
     private void encoderDrive(double vertical, double horizontal, double turn) {
-        int frontLeftPosition = (int) (robot.frontLeft.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical + HardwareOfBot.ONE_CENTIMETER * horizontal + HardwareOfBot.ONE_DEGREE * turn);
-        int frontRightPosition = (int) (robot.frontRight.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical - HardwareOfBot.ONE_CENTIMETER * horizontal - HardwareOfBot.ONE_DEGREE * turn);
-        int backLeftPosition = (int) (robot.backLeft.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical - HardwareOfBot.ONE_CENTIMETER * horizontal + HardwareOfBot.ONE_DEGREE * turn);
-        int backRightPosition = (int) (robot.backRight.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical + HardwareOfBot.ONE_CENTIMETER * horizontal - HardwareOfBot.ONE_DEGREE * turn);
+        int frontLeftPosition = (int) (robot.frontLeft.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical - HardwareOfBot.ONE_CENTIMETER * horizontal + HardwareOfBot.ONE_DEGREE * turn);
+        int frontRightPosition = (int) (robot.frontRight.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical + HardwareOfBot.ONE_CENTIMETER * horizontal - HardwareOfBot.ONE_DEGREE * turn);
+        int backLeftPosition = (int) (robot.backLeft.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical + HardwareOfBot.ONE_CENTIMETER * horizontal + HardwareOfBot.ONE_DEGREE * turn);
+        int backRightPosition = (int) (robot.backRight.getCurrentPosition() + HardwareOfBot.ONE_CENTIMETER * vertical - HardwareOfBot.ONE_CENTIMETER * horizontal - HardwareOfBot.ONE_DEGREE * turn);
 
         robot.frontLeft.setTargetPosition(frontLeftPosition);
         robot.frontRight.setTargetPosition(frontRightPosition);
@@ -110,17 +110,19 @@ public class Calibration extends LinearOpMode {
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    private void moveExtender(int encoderChange) {
+    private void moveExtender(int encoderChange, boolean wait) {
         int targetPosition = robot.brickExtender.getCurrentPosition() + encoderChange;
         robot.brickExtender.setTargetPosition(targetPosition);
         robot.brickExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.brickExtender.setPower(1);
-        while (robot.brickExtender.isBusy()) {
-            telemetry.addData("Target",targetPosition);
-            telemetry.addData("Position", robot.brickExtender.getCurrentPosition());
-            telemetry.update();
+        if (wait) {
+            while (robot.brickExtender.isBusy()) {
+                telemetry.addData("Target", targetPosition);
+                telemetry.addData("Position", robot.brickExtender.getCurrentPosition());
+                telemetry.update();
+            }
+            robot.brickExtender.setPower(0);
+            robot.brickExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        robot.brickExtender.setPower(0);
-        robot.brickExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

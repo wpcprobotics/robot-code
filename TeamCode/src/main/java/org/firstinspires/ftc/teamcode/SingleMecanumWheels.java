@@ -60,15 +60,7 @@ public class SingleMecanumWheels extends LinearOpMode {
             double vertical = -gamepad1.left_stick_y;
             double horizontal = -gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-
-            if (gamepad1.b) {
-                telemetry.addData("Mode", "I WOKE");
-            }else {
-                telemetry.addData("Mode","i sleep!");
-                vertical /= 2;
-                horizontal /= 2;
-                turn /= 2;
-            }
+            turn /= 2;
 
             double frontLeftPower = Range.clip(vertical + horizontal + turn, -1 ,1);
             double frontRightPower = Range.clip(vertical - horizontal - turn, -1, 1);
@@ -92,6 +84,8 @@ public class SingleMecanumWheels extends LinearOpMode {
             telemetry.addData("Encoders", "FL (%d), FR (%d), BL (%d), BR (%d)", robot.frontLeft.getCurrentPosition(), robot.frontRight.getCurrentPosition(), robot.backLeft.getCurrentPosition(), robot.backRight.getCurrentPosition());
             telemetry.addData("Brick Extender", "Power(%.2f), Encoder(%d)", robot.brickExtender.getPower(), robot.brickExtender.getCurrentPosition());
             telemetry.addData("Brick Claw", robot.brickClaw.getPosition());
+            telemetry.addData("ARGB: ", robot.colorSensor.argb());
+            telemetry.addData("Color","R(%d), G(%d), B(%d)", robot.colorSensor.red(), robot.colorSensor.green(), robot.colorSensor.blue());
             telemetry.update();
         }
 

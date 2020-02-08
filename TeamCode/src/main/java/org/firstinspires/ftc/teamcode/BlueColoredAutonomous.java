@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Full Red Autonomous", group="Red")
+@Autonomous(name="Colored Blue Autonomous", group="Blue")
 //@Disabled
-public class MecanumAutonomous extends LinearOpMode {
+public class BlueColoredAutonomous extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -54,20 +54,48 @@ public class MecanumAutonomous extends LinearOpMode {
         runtime.reset();
 
         // Centimeters for vertical and horizontal, degrees for turn
-        encoderDrive(100,0,0);//Approach block
+        moveExtender(700,false);
+        sleep(1000);
+        encoderDrive(80,0,0);//Approach block
+        robot.frontLeft.setPower(-0.2);
+        robot.frontRight.setPower(0.2);
+        robot.backLeft.setPower(0.2);
+        robot.backRight.setPower(-0.2);
+        while (robot.colorSensor.red() > 60 & opModeIsActive()) {
+            telemetry.addData("Red",robot.colorSensor.red());
+            telemetry.addData("Blue",robot.colorSensor.blue());
+            telemetry.addData("Green",robot.colorSensor.green());
+            telemetry.update();
+        }
+        sleep(200);
+        robot.frontLeft.setPower(0);
+        robot.frontRight.setPower(0);
+        robot.backLeft.setPower(0);
+        robot.backRight.setPower(0);
+        encoderDrive(-5,0,0);
+        moveExtender(-700,true);
+        encoderDrive(10,0,0);
         robot.brickClaw.setPosition(1);//Grab block
-        sleep(1000);//Wait to grab block
-        encoderDrive(-50,0,0);//Backup
-        moveExtender(200);
-        encoderDrive(0,225,0);//Cross under bridge
-        moveExtender(900);
+        sleep(1500);
+        encoderDrive(-70,0,0);
+        moveExtender(430, true);
+        encoderDrive(0,-300,0);//Cross under bridge
+        encoderDrive(0,50,0);
+        moveExtender(400,true);
+        encoderDrive(70,0,0);
+        robot.brickClaw.setPosition((double) 1/3);
+        encoderDrive(-30,0,0);
+        /*
+
+        moveExtender(900, true);
         encoderDrive(62,0,0);
         robot.brickClaw.setPosition((double)1/3);
         encoderDrive(0,40,0);
-        moveExtender(-1000);
+        moveExtender(-1000, true);
         encoderDrive(-90,0,0);
-        moveExtender(250);
+        moveExtender(250, true);
         encoderDrive(0,-150,0);
+         */
 
 
 
@@ -120,17 +148,19 @@ public class MecanumAutonomous extends LinearOpMode {
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    private void moveExtender(int encoderChange) {
+    private void moveExtender(int encoderChange, boolean wait) {
         int targetPosition = robot.brickExtender.getCurrentPosition() + encoderChange;
         robot.brickExtender.setTargetPosition(targetPosition);
         robot.brickExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.brickExtender.setPower(1);
-        while (robot.brickExtender.isBusy()) {
-            telemetry.addData("Target",targetPosition);
-            telemetry.addData("Position", robot.brickExtender.getCurrentPosition());
-            telemetry.update();
+        if (wait) {
+            while (robot.brickExtender.isBusy()) {
+                telemetry.addData("Target", targetPosition);
+                telemetry.addData("Position", robot.brickExtender.getCurrentPosition());
+                telemetry.update();
+            }
+            robot.brickExtender.setPower(0);
+            robot.brickExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        robot.brickExtender.setPower(0);
-        robot.brickExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

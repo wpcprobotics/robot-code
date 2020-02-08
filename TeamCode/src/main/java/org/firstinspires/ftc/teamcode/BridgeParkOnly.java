@@ -55,7 +55,6 @@ public class BridgeParkOnly extends LinearOpMode {
 
         // Centimeters for vertical and horizontal, degrees for turn
         encoderDrive(80,0,0);
-        encoderDrive(0,-80,0);
 
 
 
