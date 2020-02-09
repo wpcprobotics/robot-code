@@ -56,18 +56,30 @@ public class RedColoredAutonomous extends LinearOpMode {
         // Centimeters for vertical and horizontal, degrees for turn
         moveExtender(700,false);
         sleep(1000);
-        encoderDrive(80,0,0);//Approach block
+        encoderDrive(85,0,0);//Approach block
+        int initialPosition = robot.frontLeft.getCurrentPosition();
+        int changePosition = 0;
         robot.frontLeft.setPower(0.3);
         robot.frontRight.setPower(-0.3);
         robot.backLeft.setPower(-0.3);
         robot.backRight.setPower(0.3);
-        while (robot.colorSensor.red() > 60 & opModeIsActive()) {
+        while (robot.colorSensor.red() > 70 && opModeIsActive() && changePosition < 100) {
+            changePosition = (robot.frontLeft.getCurrentPosition() - initialPosition) / HardwareOfBot.ONE_CENTIMETER;
             telemetry.addData("Red",robot.colorSensor.red());
             telemetry.addData("Blue",robot.colorSensor.blue());
             telemetry.addData("Green",robot.colorSensor.green());
             telemetry.update();
         }
-        sleep(150);
+
+        /*
+        int x = 3;
+        boolean gotEm = true;
+        while (x > 0 && gotEm) {
+            encoderDrive(10,);
+        }
+
+         */
+        sleep(300);
         robot.frontLeft.setPower(0);
         robot.frontRight.setPower(0);
         robot.backLeft.setPower(0);
@@ -78,13 +90,12 @@ public class RedColoredAutonomous extends LinearOpMode {
         robot.brickClaw.setPosition(1);//Grab block
         sleep(1500);
         encoderDrive(-70,0,0);
-        moveExtender(400, true);
-        encoderDrive(0,300,0);//Cross under bridge
-        encoderDrive(0,-50,0);
-        moveExtender(400,true);
-        encoderDrive(70,0,0);
+        moveExtender(200, true);
+        encoderDrive(0,200 + changePosition,0);//Cross under bridge
+        moveExtender(700, false);
         robot.brickClaw.setPosition((double) 1/3);
         encoderDrive(-30,0,0);
+        encoderDrive(0, 50, 0);
         /*
 
         moveExtender(900, true);

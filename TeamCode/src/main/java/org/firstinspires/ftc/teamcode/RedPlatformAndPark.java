@@ -56,7 +56,6 @@ public class RedPlatformAndPark extends LinearOpMode {
         // Centimeters for vertical and horizontal, degrees for turn
         moveExtender(500);
         encoderDrive(110,0,0);
-        encoderDrive(0,30,0);
         moveExtender(-300);
         encoderDrive(-110,0,0);
         moveExtender(400);
